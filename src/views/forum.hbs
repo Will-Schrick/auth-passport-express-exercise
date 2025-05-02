@@ -1,0 +1,33 @@
+
+<style>
+  body {
+    font-size: 18px;
+    font-family: Arial, sans-serif;
+  }
+</style>
+
+<body>
+  <h1>Forum</h1>
+
+  <form method="POST" action="/posts">
+    <input name="title" placeholder="Title" required /><br />
+    <textarea name="content" placeholder="Your post..." required></textarea><br />
+    <button type="submit">Post</button>
+  </form>
+
+  <hr />
+
+  {{#each posts}}
+    <div>
+      <p><strong>{{this.user.username}}</strong>: {{this.title}} — {{this.content}}</p>
+      {{#ifCond this.userId ../user.id}}
+        <form method="POST" action="/posts/delete" style="display:inline">
+          <input type="hidden" name="id" value="{{this.id}}" />
+          <button type="submit">Delete</button>
+        </form>
+      {{/ifCond}}
+    </div>
+  {{/each}}
+
+  <p><a href="/auth/logout">Logout</a></p>
+</body>
